@@ -12,6 +12,7 @@ export default function InputPanel() {
     timeBetweenEnemies } = state;
 
   const clans = gameData.clans;
+  const races = gameData.races || {};
   const specs = gameData.specs;
   const powers = gameData.powers;
 
@@ -37,6 +38,22 @@ export default function InputPanel() {
             ))}
           </select>
         </div>
+
+        {Object.keys(races).length > 0 && (
+          <div className="input-group">
+            <div className="input-label">Race</div>
+            <select
+              className="select-input"
+              value={customBuild.race || ''}
+              onChange={e => dispatch({ type: 'SET_CUSTOM_BUILD', payload: { race: e.target.value } })}
+            >
+              <option value="">None</option>
+              {Object.values(races).map(r => (
+                <option key={r.id} value={r.id}>{r.name} — DMG {r.stats.DMG}%</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="input-group">
           <div className="input-label">Spec Passive</div>

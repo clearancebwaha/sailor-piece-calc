@@ -41,6 +41,7 @@ export function multiplyBuckets(multipliers) {
  */
 export function calculateBuildBuckets({
   clan,
+  race,
   spec,
   power,
   specRolls = {},
@@ -64,6 +65,21 @@ export function calculateBuildBuckets({
       entity: clan.name,
       multiplier: clanBucket,
       breakdown: `DMG ${clanDMG}% + ${weaponType} ${clanWeapon}% = ${clanBucket.toFixed(4)}x`,
+    });
+  }
+
+  // --- RACE BUCKET ---
+  if (race) {
+    const raceDMG = race.stats?.DMG || 0;
+    const raceWeapon = weaponType === 'Melee'
+      ? (race.stats?.Melee || 0)
+      : (race.stats?.Sword || 0);
+    const raceBucket = buildBucketMultiplier([raceDMG, raceWeapon]);
+    buckets.push({
+      name: 'Race',
+      entity: race.name,
+      multiplier: raceBucket,
+      breakdown: `DMG ${raceDMG}% + ${weaponType} ${raceWeapon}% = ${raceBucket.toFixed(4)}x`,
     });
   }
 

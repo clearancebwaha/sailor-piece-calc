@@ -17,6 +17,7 @@ export default function ConfigPanel() {
   const tabs = [
     { id: 'globals', label: 'Global Vars' },
     { id: 'clans', label: 'Clans' },
+    { id: 'races', label: 'Races' },
     { id: 'specs', label: 'Specs' },
     { id: 'powers', label: 'Powers' },
     { id: 'artifacts', label: 'Artifacts' },
@@ -284,6 +285,7 @@ export default function ConfigPanel() {
 
       {activeTab === 'globals' && renderGlobals()}
       {activeTab === 'clans' && renderEntityList('clans')}
+      {activeTab === 'races' && renderEntityList('races')}
       {activeTab === 'specs' && renderEntityList('specs')}
       {activeTab === 'powers' && renderEntityList('powers')}
       {activeTab === 'artifacts' && renderArtifacts()}
@@ -515,6 +517,7 @@ function AddEntityModal({ entityType, onClose, onSave }) {
 
   const isArtifact = entityType === 'artifactSets';
   const isClan = entityType === 'clans';
+  const isRace = entityType === 'races';
 
   function handleSubmit() {
     if (!name.trim()) return;
@@ -528,7 +531,7 @@ function AddEntityModal({ entityType, onClose, onSave }) {
         twoPiece: { DMG: 0, CC: 0, CD: 0 },
         fourPiece: { DMG: 0, CC: 0, CD: 0 },
       };
-    } else if (isClan) {
+    } else if (isClan || isRace) {
       entity = {
         id,
         name,
@@ -566,7 +569,7 @@ function AddEntityModal({ entityType, onClose, onSave }) {
             />
           </div>
 
-          {!isArtifact && !isClan && (
+          {!isArtifact && !isClan && !isRace && (
             <div className="form-field">
               <label>Rarity</label>
               <select className="select-input" value={rarity} onChange={e => setRarity(e.target.value)}>

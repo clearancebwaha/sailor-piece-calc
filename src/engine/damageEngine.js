@@ -259,6 +259,7 @@ function calculateHitProfile({ clan, spec, hitsToKill, baseMult, floorMechanicMu
  */
 export function calculateFullDamage({
   clan,
+  race,
   spec,
   power,
   specRolls = {},
@@ -274,6 +275,7 @@ export function calculateFullDamage({
   // 1. Calculate base buckets (Clan × Spec × Power × Artifact/Crit)
   const { buckets, totalMultiplier } = calculateBuildBuckets({
     clan,
+    race,
     spec,
     power,
     specRolls,

@@ -19,6 +19,7 @@ function createInitialState() {
     selectedPreset: 'AlterEngine',
     customBuild: {
       clan: 'Alter',
+      race: 'Luckborn',
       spec: 'Berserker',
       power: 'Colossus',
       weaponType: 'Melee',
@@ -149,10 +150,11 @@ export function GameDataProvider({ children }) {
     const totalArtifactDMG = setDMG + bodyMainDMG + glovesBootsDMG + allDMGSubs;
 
     // 5. Calculate crit for each build
-    function computeBuild(clanKey, specKey, powerKey, weaponType, useMaxRolls = false) {
+    function computeBuild(clanKey, specKey, powerKey, weaponType, useMaxRolls = false, raceKey = null) {
       const clan = gameData.clans[clanKey];
       const spec = gameData.specs[specKey];
       const power = gameData.powers[powerKey];
+      const race = raceKey ? (gameData.races?.[raceKey] || null) : null;
       if (!clan || !spec || !power) return null;
 
       // Resolve rolls
@@ -220,6 +222,7 @@ export function GameDataProvider({ children }) {
 
       return calculateFullDamage({
         clan,
+        race,
         spec,
         power,
         specRolls: sRolls,
@@ -236,8 +239,10 @@ export function GameDataProvider({ children }) {
 
     // Compute all 3 presets (God Roll)
     const presetResults = {};
+    // Determine default race (use first available)
+    const defaultRaceKey = Object.keys(gameData.races || {})[0] || null;
     for (const [key, preset] of Object.entries(gameData.presets)) {
-      const result = computeBuild(preset.clan, preset.spec, preset.power, preset.weaponType, true);
+      const result = computeBuild(preset.clan, preset.spec, preset.power, preset.weaponType, true, defaultRaceKey);
       if (result) presetResults[key] = result;
     }
 
@@ -247,7 +252,8 @@ export function GameDataProvider({ children }) {
       customBuild.spec,
       customBuild.power,
       customBuild.weaponType,
-      false
+      false,
+      customBuild.race || defaultRaceKey
     );
     if (customResult) presetResults.Custom = customResult;
 

@@ -46,15 +46,15 @@ export function calculateVerdict({
     reasoning.push('Enemy is Mob — Colossus Boss DMG inactive. Cursebrand suggested.');
   }
 
-  // ---- LOGIC GATE 4: Pride Stack Reset ----
+  // ---- LOGIC GATE 4: Frostbane/Rampage Stack Reset ----
   if (timeBetweenEnemies > 5) {
-    disabledBuilds.push('PrideEngine');
+    disabledBuilds.push('FrostbaneEngine');
     warnings.push({
       type: 'STACK_RESET',
       severity: 'warning',
-      message: `PRIDE ENGINE DISABLED: Time between enemies (${timeBetweenEnemies}s) exceeds 5s. Rampage stacks reset. Pride cannot sustain its multiplier.`,
+      message: `FROSTBANE ENGINE DISABLED: Time between enemies (${timeBetweenEnemies}s) exceeds 5s. Rampage stacks reset. Frostbane cannot sustain its multiplier.`,
     });
-    reasoning.push(`Time between enemies (${timeBetweenEnemies}s) > 5s — Pride Engine stacks reset, build disabled.`);
+    reasoning.push(`Time between enemies (${timeBetweenEnemies}s) > 5s — Frostbane Engine stacks reset, build disabled.`);
   }
 
   // ---- LOGIC GATE 2: TTK <= 3 → Alter Wins ----
@@ -80,13 +80,13 @@ export function calculateVerdict({
     );
   }
 
-  // ---- If Pride is disabled, note it ----
-  if (disabledBuilds.includes('PrideEngine')) {
-    reasoning.push('Pride Engine is excluded from contention due to stack reset conditions.');
+  // ---- If Frostbane is disabled, note it ----
+  if (disabledBuilds.includes('FrostbaneEngine')) {
+    reasoning.push('Frostbane Engine is excluded from contention due to stack reset conditions.');
   } else if (hitsToKill >= 12) {
-    // Pride gets competitive at very high TTK
+    // Frostbane gets competitive at very high TTK
     reasoning.push(
-      `Note: At ${hitsToKill} hits, Pride Engine approaches competitive territory due to Rampage stack accumulation.`,
+      `Note: At ${hitsToKill} hits, Frostbane Engine approaches competitive territory due to Rampage + Frostbane stack accumulation.`,
       'However, Voldigoat execution phase still dominates in total output for the fight\'s duration.'
     );
   }

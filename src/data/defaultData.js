@@ -146,6 +146,30 @@ export const DEFAULT_CLANS = {
       duration: 8,
     },
   },
+  Frostbane: {
+    id: 'Frostbane',
+    name: 'Frostbane',
+    stats: { DMG: 40, HP: 47, Sword: 10, Luck: 12 },
+    mechanic: {
+      type: 'scaling_multiplier',
+      description: 'Up to 1.25x Final Multiplier Cap (0.00225x per tick)',
+      multiplierMin: 1.0,
+      multiplierMax: 1.25,
+      tickRate: 0.00225,
+    },
+  },
+};
+
+// ============================================================
+// RACES (Fixed Base Stats — Independent Multiplicative Bucket)
+// ============================================================
+export const DEFAULT_RACES = {
+  Luckborn: {
+    id: 'Luckborn',
+    name: 'Luckborn',
+    stats: { DMG: 80, HP: 90, Sword: 15, Melee: 15, Luck: 35 },
+    mechanic: null,
+  },
 };
 
 // ============================================================
@@ -346,15 +370,15 @@ export const DEFAULT_PRESETS = {
     weaponType: 'Melee',
     description: 'Voldigoat +25% DMG, +7% Melee, 1.25x <50% HP | Executioner +45% DMG <50% HP | Colossus 1.25x Boss',
   },
-  PrideEngine: {
-    id: 'PrideEngine',
-    name: 'The Sustained God (Pride Engine)',
-    shortName: 'Pride Engine',
-    clan: 'Pride',
+  FrostbaneEngine: {
+    id: 'FrostbaneEngine',
+    name: 'The Sustained God (Frostbane Engine)',
+    shortName: 'Frostbane Engine',
+    clan: 'Frostbane',
     spec: 'Rampage',
     power: 'Colossus',
     weaponType: 'Sword',
-    description: 'Pride +30% DMG, +10% Sword, 1.20x cap | Rampage +30% DMG, +10% CD, 1.30x cap | Colossus 1.25x Boss',
+    description: 'Frostbane +40% DMG, +10% Sword, 1.25x cap | Rampage +30% DMG, +10% CD, 1.30x cap | Colossus 1.25x Boss',
   },
 };
 
@@ -363,6 +387,7 @@ export const DEFAULT_PRESETS = {
 // ============================================================
 export const DEFAULT_MULTIPLIER_BUCKETS = [
   { id: 'clan', name: 'Clan', description: 'Clan base stats bucket' },
+  { id: 'race', name: 'Race', description: 'Race base stats bucket' },
   { id: 'spec', name: 'Spec Passive', description: 'Spec passive stats bucket' },
   { id: 'power', name: 'Power', description: 'Power stats bucket' },
   { id: 'artifact', name: 'Artifact/Crit', description: 'Artifact set bonus + Crit Yield' },
@@ -378,6 +403,7 @@ export function getDefaultGameData() {
     artifactSets: { ...DEFAULT_ARTIFACT_SETS },
     artifactSlots: JSON.parse(JSON.stringify(DEFAULT_ARTIFACT_SLOTS)),
     clans: { ...DEFAULT_CLANS },
+    races: { ...DEFAULT_RACES },
     powers: { ...DEFAULT_POWERS },
     specs: { ...DEFAULT_SPECS },
     presets: { ...DEFAULT_PRESETS },
